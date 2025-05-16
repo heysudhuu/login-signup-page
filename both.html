@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signup & Login</title>
+  <style>
+    :root {
+      --bg-color: #f6f8fa;
+      --text-color: #24292e;
+      --card-bg: #ffffff;
+      --input-bg: #ffffff;
+      --input-border: #d0d7de;
+      --button-bg: #2da44e;
+      --button-hover: #218739;
+      --transition-speed: 0.4s;
+    }
+
+    body.dark-mode {
+      --bg-color: #0d1117;
+      --text-color: #c9d1d9;
+      --card-bg: #161b22;
+      --input-bg: #0d1117;
+      --input-border: #30363d;
+      --button-bg: #238636;
+      --button-hover: #2ea043;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    header, footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: var(--card-bg);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: background-color var(--transition-speed);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .toggle-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: 2px solid var(--text-color);
+      border-radius: 20px;
+      padding: 0.3rem 1rem;
+      cursor: pointer;
+      color: var(--text-color);
+      font-weight: bold;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .toggle-btn:hover {
+      background-color: var(--button-hover);
+      color: white;
+    }
+
+    .main-content {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .form-container {
+      background-color: var(--card-bg);
+      padding: 32px;
+      border-radius: 6px;
+      box-shadow: 0 8px 24px rgba(149, 157, 165, 0.2);
+      width: 100%;
+      max-width: 400px;
+      transform: translateY(30px);
+      animation: slideUp 0.8s ease-out forwards;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 16px;
+      background-color: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 6px;
+      font-size: 14px;
+      color: var(--text-color);
+      transition: all 0.3s ease-in-out;
+    }
+
+    input:focus, select:focus {
+      border-color: #58a6ff;
+      outline: none;
+    }
+
+    button[type="submit"], .switch-btn {
+      width: 100%;
+      padding: 10px;
+      background-color: var(--button-bg);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover, .switch-btn:hover {
+      background-color: var(--button-hover);
+    }
+
+    footer {
+      font-size: 0.9rem;
+      color: #8b949e;
+    }
+
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <button class="toggle-btn" onclick="toggleTheme()">🌗 Theme</button>
+
+  <header>
+    <h1>🔐 Sudhu Auth System</h1>
+  </header>
+
+  <div class="main-content">
+    <div class="form-container">
+      <!-- Signup Form -->
+      <form id="signup-form">
+        <h2>Sign Up</h2>
+        <label>First Name</label>
+        <input type="text" name="first_name" required />
+
+        <label>Middle Name</label>
+        <input type="text" name="middle_name" />
+
+        <label>Last Name</label>
+        <input type="text" name="last_name" required />
+
+        <label>Email</label>
+        <input type="email" name="email" required />
+
+        <label>Phone Number</label>
+        <input type="tel" name="phone" required />
+
+        <label>Date of Birth</label>
+        <input type="date" name="dob" required />
+
+        <label>User Role</label>
+        <select name="role" required>
+          <option value="" disabled selected>Select Role</option>
+          <option value="student">Student</option>
+          <option value="teacher">Teacher</option>
+          <option value="parent">Parent</option>
+          <option value="other">Other</option>
+        </select>
+
+        <label>Gender</label>
+        <select name="gender" required>
+          <option value="" disabled selected>Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+
+        <button type="button" onclick="showAccountSetup()">Next</button>
+      </form>
+
+      <!-- Account Setup -->
+      <form id="account-form" class="hidden">
+        <h2>Create Account</h2>
+        <label>Username</label>
+        <input type="text" name="username" required />
+
+        <label>Password</label>
+        <input type="password" name="password" required />
+
+        <label>Confirm Password</label>
+        <input type="password" name="confirm_password" required />
+
+        <button type="submit" onclick="submitSignup(event)">Create Account</button>
+        <button type="button" class="switch-btn" onclick="backToSignup()">⬅ Back</button>
+      </form>
+
+      <!-- Login Form -->
+      <form id="login-form" class="hidden">
+        <h2>Login</h2>
+        <label>Username</label>
+        <input type="text" name="login_username" required />
+
+        <label>Password</label>
+        <input type="password" name="login_password" required />
+
+        <button type="submit" onclick="submitLogin(event)">Login</button>
+        <button type="button" class="switch-btn" onclick="showSignup()">New user? Sign up</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Sudhu Bhai Ji • Built with ❤️
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle("dark-mode");
+    }
+
+    function showAccountSetup() {
+      document.getElementById('signup-form').classList.add('hidden');
+      document.getElementById('account-form').classList.remove('hidden');
+    }
+
+    function backToSignup() {
+      document.getElementById('signup-form').classList.remove('hidden');
+      document.getElementById('account-form').classList.add('hidden');
+    }
+
+    function showSignup() {
+      document.getElementById('login-form').classList.add('hidden');
+      document.getElementById('signup-form').classList.remove('hidden');
+    }
+
+    function showLogin() {
+      document.getElementById('signup-form').classList.add('hidden');
+      document.getElementById('account-form').classList.add('hidden');
+      document.getElementById('login-form').classList.remove('hidden');
+    }
+
+    window.onload = () => {
+      document.getElementById('signup-form').classList.add('hidden');
+      document.getElementById('account-form').classList.add('hidden');
+      document.getElementById('login-form').classList.remove('hidden');
+    };
+
+    async function submitSignup(event) {
+      event.preventDefault();
+
+      const signupData = {
+        first_name: document.querySelector('[name="first_name"]').value,
+        middle_name: document.querySelector('[name="middle_name"]').value,
+        last_name: document.querySelector('[name="last_name"]').value,
+        email: document.querySelector('[name="email"]').value,
+        phone: document.querySelector('[name="phone"]').value,
+        dob: document.querySelector('[name="dob"]').value,
+        role: document.querySelector('[name="role"]').value,
+        gender: document.querySelector('[name="gender"]').value,
+        username: document.querySelector('[name="username"]').value,
+        password: document.querySelector('[name="password"]').value,
+      };
+
+      try {
+        const res = await fetch('http://localhost:5000/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(signupData)
+        });
+
+        const data = await res.json();
+        alert(data.message);
+        if (res.ok) showLogin();
+      } catch (err) {
+        console.error('Signup error:', err);
+        alert('Something went wrong.');
+      }
+    }
+
+    async function submitLogin(event) {
+      event.preventDefault();
+
+      const loginData = {
+        login_username: document.querySelector('[name="login_username"]').value,
+        login_password: document.querySelector('[name="login_password"]').value
+      };
+
+      try {
+        const res = await fetch('http://localhost:5000/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(loginData)
+        });
+
+        const data = await res.json();
+        alert(data.message);
+      } catch (err) {
+        console.error('Login error:', err);
+        alert('Login failed.');
+      }
+    }
+  </script>
+</body>
+</html>
